@@ -1,0 +1,33 @@
+# Backups
+*~
+*.DS_Store
+*.out
+*.so
+*.swp
+
+# Logs
+logs
+*.log
+
+# Composer
+vendor
+composer.lock
+
+# Node
+.npm
+node_modules
+npm-debug.log*
+
+# PhpStorm
+.idea
+
+# PHPUnit
+phpunit.xml
+
+
+# WP Starter
+wp-content
+
+
+# Git
+!.gitkeep

@@ -1,0 +1,34 @@
+{
+	"name": "inpsyde/menu-cache",
+	"description": "Easily cache rendered menus using the Transients API.",
+	"type": "wordpress-plugin",
+	"license": "MIT",
+	"minimumt-stability": "dev-master",
+	"prefer-stable": true,
+	"authors": [
+		{
+			"name": "Inpsyde GmbH",
+			"email": "hello@inpsyde.com",
+			"homepage": "http://inpsyde.com",
+			"role": "Company"
+		},
+		{
+			"name": "Thorsten Frommen",
+			"email": "t.frommen@inpsyde.com",
+			"role": "Developer"
+		},
+		{
+			"name": "David Naber",
+			"email": "d.naber@inpsyde.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"Inpsyde\\MenuCache\\": "src"
+		}
+	}
+}
