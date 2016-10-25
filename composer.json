@@ -3,7 +3,7 @@
 	"description": "Easily cache rendered menus using the Transients API.",
 	"type": "wordpress-plugin",
 	"license": "MIT",
-	"minimumt-stability": "dev-master",
+	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"authors": [
 		{
