@@ -1,6 +1,6 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace Inpsyde\WPRESTStarter\Tests;
+namespace Inpsyde\MenuCache\Tests;
 
 use Brain\Monkey;
 use Mockery;
@@ -9,7 +9,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * Abstract base class for all test case implementations.
  *
- * @package Inpsyde\WPRESTStarter\Tests
+ * @package Inpsyde\MenuCache\Tests
  * @since   1.0.0
  */
 abstract class TestCase extends PHPUnit_Framework_TestCase {

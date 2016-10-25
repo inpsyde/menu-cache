@@ -13,15 +13,12 @@
 	stopOnFailure="false">
 	<testsuites>
 		<testsuite name="unit">
-			<directory suffix="Test.php">tests/php/Unit</directory>
+			<directory suffix="Test.php">tests/Unit</directory>
 		</testsuite>
 		<testsuite name="integration">
-			<directory suffix="Test.php">tests/php/Integration</directory>
+			<directory suffix="Test.php">tests/Integration</directory>
 		</testsuite>
 	</testsuites>
-	<listeners>
-		<listener class="TestListener" file="tests/php/TestListener.php"/>
-	</listeners>
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">src</directory>
