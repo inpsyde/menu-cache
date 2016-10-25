@@ -166,7 +166,7 @@ class MenuCache {
 		/**
 		 * Filters the caching condition of a single menu.
 		 *
-		 * @param bool   $should_cache_menu Whether or not the menu shold be cached.
+		 * @param bool   $should_cache_menu Whether or not the menu should be cached.
 		 * @param object $args              Menu args.
 		 */
 		return (bool) apply_filters( 'inpsyde_menu_cache.should_cache_menu', $should_cache_menu, $args );
