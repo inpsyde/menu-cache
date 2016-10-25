@@ -12,7 +12,6 @@ Please note:
 
 * PHP: 
 * WordPress: 
-* WP REST API plugin: if used
 
 #### Steps to Reproduce
 
