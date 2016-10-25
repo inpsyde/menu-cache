@@ -1,9 +1,10 @@
 # Inpsyde Menu Cache
 
-[![Version](https://img.shields.io/github/release/inpsyde/menu-cache.svg)](https://github.com/inpsyde/menu-cache)
+[![Version](https://img.shields.io/packagist/v/inpsyde/menu-cache.svg)](https://packagist.org/packages/inpsyde/menu-cache)
 [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://github.com/inpsyde/menu-cache)
-[![Downloads](https://img.shields.io/github/downloads/inpsyde/menu-cache.svg)](https://github.com/inpsyde/menu-cache)
-[![License](https://img.shields.io/github/license/inpsyde/menu-cache.svg)](https://github.com/inpsyde/menu-cache)
+[![Build](https://img.shields.io/travis/inpsyde/menu-cache.svg)](http://travis-ci.org/inpsyde/menu-cache)
+[![Downloads](https://img.shields.io/packagist/dt/inpsyde/menu-cache.svg)](https://packagist.org/packages/inpsyde/menu-cache)
+[![License](https://img.shields.io/packagist/l/inpsyde/menu-cache.svg)](https://packagist.org/packages/inpsyde/menu-cache)
 
 > Easily cache rendered menus using the Transients API.
 
@@ -80,7 +81,7 @@ The `inpsyde_menu_cache.should_cache_menu` filter allows you to customize cachin
 
 **Arguments:**
 
-- `bool` `$key`: Whether or not the menu shold be cached.
+- `bool` `$key`: Whether or not the menu should be cached.
 - `object` `$args`: Menu args.
 
 **Usage Example:**
