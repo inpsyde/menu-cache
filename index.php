@@ -38,7 +38,7 @@ function bootstrap() {
 
 	add_filter( 'pre_wp_nav_menu', [ $cache, 'get_menu' ], 10, 2 );
 
-	// Unfortunately, there is no appropriate action, so we have to (mis)use a filter here. Almost as last as possible.
+	// Unfortunately, there is no appropriate action, so we have to (mis)use a filter here. Almost as late as possible.
 	add_filter( 'wp_nav_menu', [ $cache, 'cache_menu' ], PHP_INT_MAX - 1, 2 );
 }
 
