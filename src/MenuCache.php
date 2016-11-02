@@ -146,7 +146,7 @@ class MenuCache {
 	}
 
 	/**
-	 * Returns a unique key for a menu (represented by its args).
+	 * Checks if a menu should be cached.
 	 *
 	 * @param object $args Menu args.
 	 *
