@@ -18,12 +18,29 @@ class MenuCache {
 	/**
 	 * @var string
 	 */
-	private $key_prefix = 'cached_menu_';
+	private $key_argument;
 
 	/**
 	 * @var string[]
 	 */
 	private $theme_locations;
+
+	/**
+	 * Constructor. Sets up the properties.
+	 *
+	 * @since 1.1.0
+	 */
+	public function __construct() {
+
+		/**
+		 * Filters the menu argument name used to store the menu key.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string $key_argument The menu argument name used to store the menu key.
+		 */
+		$this->key_argument = (string) apply_filters( 'inpsyde_menu_cache.key_argument', 'menu_key' );
+	}
 
 	/**
 	 * Stores the menu HTML in a transient.
@@ -38,10 +55,12 @@ class MenuCache {
 	 */
 	public function cache_menu( $menu, $args ) {
 
-		$args = $this->normalize_args( $args );
-
 		if ( $this->should_cache_menu( $args ) ) {
-			set_transient( $this->get_key( $args ), $menu, $this->expiration() );
+			if ( ! isset( $args->{$this->key_argument} ) ) {
+				$args->{$this->key_argument} = $this->get_key( $args );
+			}
+
+			set_transient( $args->{$this->key_argument}, $menu, $this->expiration() );
 		}
 
 		return $menu;
@@ -60,10 +79,8 @@ class MenuCache {
 	 */
 	public function get_menu( $menu, $args ) {
 
-		$args = $this->normalize_args( $args );
-
-		if ( $this->should_cache_menu( $args ) ) {
-			$cached_menu = get_transient( $this->get_key( $args ) );
+		if ( $this->should_cache_menu( $args ) && isset( $args->{$this->key_argument} ) ) {
+			$cached_menu = get_transient( $args->{$this->key_argument} );
 			if ( is_string( $cached_menu ) ) {
 				return $cached_menu;
 			}
@@ -86,6 +103,8 @@ class MenuCache {
 		/**
 		 * Filters the expiration.
 		 *
+		 * @since 1.0.0
+		 *
 		 * @param int $expiration Expiration in seconds.
 		 */
 		$this->expiration = (int) apply_filters( 'inpsyde_menu_cache.expiration', 300 );
@@ -105,44 +124,12 @@ class MenuCache {
 		/**
 		 * Filters the key of a single menu.
 		 *
+		 * @since 1.0.0
+		 *
 		 * @param string $key  Current key.
 		 * @param object $args Menu args.
 		 */
-		return (string) apply_filters( 'inpsyde_menu_cache.key', $this->key_prefix . md5( serialize( $args ) ), $args );
-	}
-
-	/**
-	 * Returns a normalized version of the passed menu args object.
-	 *
-	 * @param object $args Menu args.
-	 *
-	 * @return object Normalized menu args.
-	 */
-	private function normalize_args( $args ) {
-
-		$menu = wp_get_nav_menu_object( $args->menu );
-
-		if ( ! $menu && $args->theme_location ) {
-			$locations = get_nav_menu_locations();
-			if ( isset( $locations[ $args->theme_location ] ) ) {
-				$menu = wp_get_nav_menu_object( $locations[ $args->theme_location ] );
-			}
-		}
-
-		if ( ! $menu && ! $args->theme_location ) {
-			foreach ( wp_get_nav_menus() as $menu_maybe ) {
-				if ( wp_get_nav_menu_items( $menu_maybe->term_id, array( 'update_post_term_cache' => false ) ) ) {
-					$menu = $menu_maybe;
-					break;
-				}
-			}
-		}
-
-		if ( empty( $args->menu ) ) {
-			$args->menu = $menu;
-		}
-
-		return $args;
+		return (string) apply_filters( 'inpsyde_menu_cache.key', 'cached_menu_' . md5( serialize( $args ) ), $args );
 	}
 
 	/**
@@ -166,6 +153,8 @@ class MenuCache {
 		/**
 		 * Filters the caching condition of a single menu.
 		 *
+		 * @since 1.0.0
+		 *
 		 * @param bool   $should_cache_menu Whether or not the menu should be cached.
 		 * @param object $args              Menu args.
 		 */
@@ -185,6 +174,8 @@ class MenuCache {
 
 		/**
 		 * Filters the theme locations.
+		 *
+		 * @since 1.0.0
 		 *
 		 * @param string|string[] $theme_locations One or more theme locations.
 		 */

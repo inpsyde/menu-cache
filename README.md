@@ -56,7 +56,7 @@ add_filter( 'inpsyde_menu_cache.expiration', function () {
 
 #### `inpsyde_menu_cache.key`
 
-The `inpsyde_menu_cache.key` filter allows you to customize the cache key on a per-menu basis. The default value is constrcuted using a predfined prefix and the MD5 hash of the serialized (normalized) args object.
+The `inpsyde_menu_cache.key` filter allows you to customize the cache key on a per-menu basis. The default value is constructed using a predfined prefix and the MD5 hash of the serialized (normalized) args object.
 
 **Arguments:**
 
@@ -73,6 +73,26 @@ add_filter( 'inpsyde_menu_cache.key', function ( $key, $args ) {
 	// Construct the key based on the theme location only.
 	return "cached_menu_{$args->theme_location}";
 }, 10, 2 );
+```
+
+#### `inpsyde_menu_cache.key_argument`
+
+The `inpsyde_menu_cache.key_argument` filter allows you to customize the menu argument name that is used to store the menu key (for later look-up).
+
+**Arguments:**
+
+- `string` `$key_argument`: Current key argument name.
+
+**Usage Example:**
+
+```php
+<?php
+
+add_filter( 'inpsyde_menu_cache.key_argument', function () {
+
+	// Use a argument name with a leading underscore.
+	return '_menu_key';
+} );
 ```
 
 #### `inpsyde_menu_cache.should_cache_menu`

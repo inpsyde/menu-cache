@@ -3,7 +3,6 @@
 namespace Inpsyde\MenuCache\Tests;
 
 use Brain\Monkey;
-use Mockery;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -37,7 +36,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 
 		Monkey::tearDownWP();
-		Mockery::close();
 		parent::tearDown();
 	}
 }
