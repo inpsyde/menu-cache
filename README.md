@@ -13,7 +13,7 @@
 The `wp_nav_menu()` function calls `_wp_menu_item_classes_by_context()`, which again, depending on the context, calls `wp_get_object_terms()`, which is **not** cached, multiple times.
 With lots of taxonomies, terms and menu items, this can lead to a fair amount of (totally redundant) database queries.
 
-This plugin let's you cache rendered menus (assuming they don't have dynamic components) for re-use.
+This plugin lets you cache rendered menus (assuming they don't have dynamic components) for re-use.
 
 ## Installation
 
