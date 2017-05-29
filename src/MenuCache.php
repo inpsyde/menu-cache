@@ -11,6 +11,51 @@ namespace Inpsyde\MenuCache;
 class MenuCache {
 
 	/**
+	 * Filter name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	const FILTER_EXPIRATION = 'inpsyde_menu_cache.expiration';
+
+	/**
+	 * Filter name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	const FILTER_KEY = 'inpsyde_menu_cache.key';
+
+	/**
+	 * Filter name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	const FILTER_KEY_ARGUMENT = 'inpsyde_menu_cache.key_argument';
+
+	/**
+	 * Filter name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	const FILTER_SHOULD_CACHE_MENU = 'inpsyde_menu_cache.should_cache_menu';
+
+	/**
+	 * Filter name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	const FILTER_THEME_LOCATIONS = 'inpsyde_menu_cache.theme_locations';
+
+	/**
 	 * @var int
 	 */
 	private $expiration;
@@ -39,7 +84,7 @@ class MenuCache {
 		 *
 		 * @param string $key_argument The menu argument name used to store the menu key.
 		 */
-		$this->key_argument = (string) apply_filters( 'inpsyde_menu_cache.key_argument', 'menu_key' );
+		$this->key_argument = (string) apply_filters( self::FILTER_KEY_ARGUMENT, 'menu_key' );
 	}
 
 	/**
@@ -56,11 +101,7 @@ class MenuCache {
 	public function cache_menu( $menu, $args ) {
 
 		if ( $this->should_cache_menu( $args ) ) {
-			if ( ! isset( $args->{$this->key_argument} ) ) {
-				$args->{$this->key_argument} = $this->get_key( $args );
-			}
-
-			set_transient( $args->{$this->key_argument}, $menu, $this->expiration() );
+			set_transient( $this->menu_key( $args ), $menu, $this->expiration() );
 		}
 
 		return $menu;
@@ -72,15 +113,15 @@ class MenuCache {
 	 * @since   1.0.0
 	 * @wp-hook pre_wp_nav_menu
 	 *
-	 * @param null   $menu Unused.
-	 * @param object $args Menu args.
+	 * @param string|null $menu Menu HTML, or null.
+	 * @param object      $args Menu args.
 	 *
-	 * @return string|null Cached menu HTML, if found, or null.
+	 * @return string|null Cached menu HTML, if found, or original value.
 	 */
 	public function get_menu( $menu, $args ) {
 
-		if ( $this->should_cache_menu( $args ) && isset( $args->{$this->key_argument} ) ) {
-			$cached_menu = get_transient( $args->{$this->key_argument} );
+		if ( $this->should_cache_menu( $args ) ) {
+			$cached_menu = get_transient( $this->menu_key( $args ) );
 			if ( is_string( $cached_menu ) ) {
 				return $cached_menu;
 			}
@@ -107,7 +148,7 @@ class MenuCache {
 		 *
 		 * @param int $expiration Expiration in seconds.
 		 */
-		$this->expiration = (int) apply_filters( 'inpsyde_menu_cache.expiration', 300 );
+		$this->expiration = (int) apply_filters( self::FILTER_EXPIRATION, 300 );
 
 		return $this->expiration;
 	}
@@ -119,17 +160,25 @@ class MenuCache {
 	 *
 	 * @return string Menu key.
 	 */
-	private function get_key( $args ) {
+	private function menu_key( $args ) {
 
-		/**
-		 * Filters the key of a single menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $key  Current key.
-		 * @param object $args Menu args.
-		 */
-		return (string) apply_filters( 'inpsyde_menu_cache.key', 'cached_menu_' . md5( serialize( $args ) ), $args );
+		$key_argument = $this->key_argument;
+
+		if ( ! isset( $args->{$key_argument} ) || ! is_string( $args->{$key_argument} ) ) {
+			$key = 'cached_menu_' . md5( serialize( $args ) );
+
+			/**
+			 * Filters the key of a single menu.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $key  Current key.
+			 * @param object $args Menu args.
+			 */
+			$args->{$key_argument} = (string) apply_filters( self::FILTER_KEY, $key, $args );
+		}
+
+		return $args->{$key_argument};
 	}
 
 	/**
@@ -158,7 +207,7 @@ class MenuCache {
 		 * @param bool   $should_cache_menu Whether or not the menu should be cached.
 		 * @param object $args              Menu args.
 		 */
-		return (bool) apply_filters( 'inpsyde_menu_cache.should_cache_menu', $should_cache_menu, $args );
+		return (bool) apply_filters( self::FILTER_SHOULD_CACHE_MENU, $should_cache_menu, $args );
 	}
 
 	/**
@@ -179,8 +228,9 @@ class MenuCache {
 		 *
 		 * @param string|string[] $theme_locations One or more theme locations.
 		 */
-		$this->theme_locations = (array) apply_filters( 'inpsyde_menu_cache.theme_locations', [] );
-		$this->theme_locations = array_map( 'strval', $this->theme_locations );
+		$theme_locations = (array) apply_filters( self::FILTER_THEME_LOCATIONS, [] );
+
+		$this->theme_locations = array_map( 'strval', $theme_locations );
 
 		return $this->theme_locations;
 	}
