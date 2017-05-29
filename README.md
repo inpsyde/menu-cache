@@ -10,7 +10,8 @@
 
 ## Introduction
 
-The `wp_nav_menu()` function calls `_wp_menu_item_classes_by_context()` that again, depending on the context, calls `wp_get_object_terms()`, which is **not** cached, multiple times. With lots of taxonomies, terms and menu items, this can lead to a fair amount of (totally redundant) DB queries.
+The `wp_nav_menu()` function calls `_wp_menu_item_classes_by_context()`, which again, depending on the context, calls `wp_get_object_terms()`, which is **not** cached, multiple times.
+With lots of taxonomies, terms and menu items, this can lead to a fair amount of (totally redundant) database queries.
 
 This plugin let's you cache rendered menus (assuming they don't have dynamic components) for re-use.
 
@@ -28,15 +29,18 @@ This package requires PHP 5.4 or higher.
 
 ## Usage
 
-Once activated, the plugin caches **all** menus, by default for **five minutes**. The menus to be cached as well as the expiration can be customized by using the appropriate filter.
+Once activated, the plugin caches **all** menus, by default for **five minutes**.
+The menus to be cached, as well as the expiration, can be customized by using the appropriate filter.
 
 ### Filters
 
-Need to customize anything? Just use the provided filters.
+Need to customize anything?
+Just use the provided filters.
 
-#### `inpsyde_menu_cache.expiration`
+#### `Inpsyde\MenuCache\MenuCache::FILTER_EXPIRATION`
 
-The `inpsyde_menu_cache.expiration` filter allows you to define the expiration for all cached menus. The default value is 300, which is 5 minutes.
+The `Inpsyde\MenuCache\MenuCache::FILTER_EXPIRATION` filter allows you to define the expiration for all cached menus.
+The default value is 300, which is 5 minutes.
 
 **Arguments:**
 
@@ -47,16 +51,17 @@ The `inpsyde_menu_cache.expiration` filter allows you to define the expiration f
 ```php
 <?php
 
-add_filter( 'inpsyde_menu_cache.expiration', function () {
+add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_EXPIRATION, function () {
 
 	// Cache menus for 10 minutes.
 	return 600;
 } );
 ```
 
-#### `inpsyde_menu_cache.key`
+#### `Inpsyde\MenuCache\MenuCache::FILTER_KEY`
 
-The `inpsyde_menu_cache.key` filter allows you to customize the cache key on a per-menu basis. The default value is constructed using a predfined prefix and the MD5 hash of the serialized (normalized) args object.
+The `Inpsyde\MenuCache\MenuCache::FILTER_KEY` filter allows you to customize the cache key on a per-menu basis.
+The default value is constructed using a predfined prefix and the MD5 hash of the serialized args object.
 
 **Arguments:**
 
@@ -68,16 +73,16 @@ The `inpsyde_menu_cache.key` filter allows you to customize the cache key on a p
 ```php
 <?php
 
-add_filter( 'inpsyde_menu_cache.key', function ( $key, $args ) {
+add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_KEY, function ( $key, $args ) {
 
 	// Construct the key based on the theme location only.
 	return "cached_menu_{$args->theme_location}";
 }, 10, 2 );
 ```
 
-#### `inpsyde_menu_cache.key_argument`
+#### `Inpsyde\MenuCache\MenuCache::FILTER_KEY_ARGUMENT`
 
-The `inpsyde_menu_cache.key_argument` filter allows you to customize the menu argument name that is used to store the menu key (for later look-up).
+The `Inpsyde\MenuCache\MenuCache::FILTER_KEY_ARGUMENT` filter allows you to customize the menu argument name that is used to store the menu key (for later look-up).
 
 **Arguments:**
 
@@ -88,16 +93,16 @@ The `inpsyde_menu_cache.key_argument` filter allows you to customize the menu ar
 ```php
 <?php
 
-add_filter( 'inpsyde_menu_cache.key_argument', function () {
+add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_KEY_ARGUMENT, function () {
 
-	// Use a argument name with a leading underscore.
+	// Use argument name with a leading underscore.
 	return '_menu_key';
 } );
 ```
 
-#### `inpsyde_menu_cache.should_cache_menu`
+#### `Inpsyde\MenuCache\MenuCache::FILTER_SHOULD_CACHE_MENU`
 
-The `inpsyde_menu_cache.should_cache_menu` filter allows you to customize caching on a per-menu basis.
+The `Inpsyde\MenuCache\MenuCache::FILTER_SHOULD_CACHE_MENU` filter allows you to customize caching on a per-menu basis.
 
 **Arguments:**
 
@@ -109,16 +114,16 @@ The `inpsyde_menu_cache.should_cache_menu` filter allows you to customize cachin
 ```php
 <?php
 
-add_filter( 'inpsyde_menu_cache.should_cache_menu', function ( $should_cache_menu, $args ) {
+add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_SHOULD_CACHE_MENU, function ( $should_cache_menu, $args ) {
 
 	// Cache all menus for a bunch of dynamically created theme locations.
-	return 0 === strpos( $args->theme_location, 'some_perfix_here_' );
+	return 0 === strpos( $args->theme_location, 'some_prefix_here_' );
 }, 10, 2 );
 ```
 
-#### `inpsyde_menu_cache.theme_locations`
+#### `Inpsyde\MenuCache\MenuCache::FILTER_THEME_LOCATIONS`
 
-The `inpsyde_menu_cache.theme_locations` filter allows you to define theme locations to restrict caching menus to.
+The `Inpsyde\MenuCache\MenuCache::FILTER_THEME_LOCATIONS` filter allows you to define theme locations to restrict caching menus to.
 
 **Arguments:**
 
@@ -129,15 +134,15 @@ The `inpsyde_menu_cache.theme_locations` filter allows you to define theme locat
 ```php
 <?php
 
-add_filter( 'inpsyde_menu_cache.theme_locations', function () {
+add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_THEME_LOCATIONS, function () {
 
-	// Cache the menus for the "primary"  theme location only.
+	// Cache the menus for the "primary" theme location only.
 	return 'primary';
 } );
 ```
 
 ## License
 
-Copyright (c) 2016 Inpsyde GmbH, Thorsten Frommen, David Naber
+Copyright (c) 2017 Inpsyde GmbH, Thorsten Frommen, David Naber
 
 This code is licensed under the [MIT License](LICENSE).

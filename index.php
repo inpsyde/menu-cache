@@ -5,7 +5,7 @@
  * Description: Easily cache rendered menus using the Transients API.
  * Author:      Inpsyde GmbH, Thorsten Frommen, David Naber
  * Author URI:  https://inpsyde.com
- * Version:     1.1.0
+ * Version:     1.2.0
  * License:     MIT
  */
 
@@ -42,4 +42,4 @@ function bootstrap() {
 	add_filter( 'wp_nav_menu', [ $cache, 'cache_menu' ], PHP_INT_MAX - 1, 2 );
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\bootstrap' );
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
