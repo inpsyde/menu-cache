@@ -3,7 +3,7 @@
 namespace Inpsyde\MenuCache\Tests;
 
 use Brain\Monkey;
-use PHPUnit_Framework_TestCase;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 /**
  * Abstract base class for all test case implementations.
@@ -11,7 +11,9 @@ use PHPUnit_Framework_TestCase;
  * @package Inpsyde\MenuCache\Tests
  * @since   1.0.0
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase {
+abstract class TestCase extends \PHPUnit_Framework_TestCase {
+
+	use MockeryPHPUnitIntegration;
 
 	/**
 	 * Prepares the test environment before each test.
@@ -37,5 +39,22 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 
 		Monkey::tearDownWP();
 		parent::tearDown();
+	}
+
+	/**
+	 * Returns a menu args mock object.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array $additional_args Optional. Additional arguments. Defaults to empty array.
+	 *
+	 * @return object Menu args mock object.
+	 */
+	protected function mock_args( $additional_args = [] ) {
+
+		return (object) array_merge( [
+			'menu'           => '',
+			'theme_location' => '',
+		], $additional_args );
 	}
 }

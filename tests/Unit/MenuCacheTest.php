@@ -3,8 +3,8 @@
 namespace Inpsyde\MenuCache\Tests\Unit;
 
 use Brain\Monkey;
-use Inpsyde\MenuCache\Tests\TestCase;
 use Inpsyde\MenuCache\MenuCache as Testee;
+use Inpsyde\MenuCache\Tests\TestCase;
 
 /**
  * Test case for the Menu Cache class.
@@ -15,59 +15,9 @@ use Inpsyde\MenuCache\MenuCache as Testee;
 class MenuCacheTest extends TestCase {
 
 	/**
-	 * Tests if the passed menu (string) gets returned as is in case the menu is to be cached.
-	 *
-	 * @since  1.0.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::cache_menu()
-	 *
-	 * @return void
-	 */
-	public function test_cache_menu_returns_unfiltered_menu_when_caching() {
-
-		$menu = 'Some markup, maybe.';
-
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
-			->andReturn( true );
-
-		Monkey\Functions::expect( 'set_transient' );
-
-		$this->assertSame( $menu, ( new Testee() )->cache_menu( $menu, $this->args_mock() ) );
-	}
-
-	/**
-	 * Tests if the menu key gets adde to the menu arguments in case the menu is to be cached.
-	 *
-	 * @since  1.1.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::cache_menu()
-	 *
-	 * @return void
-	 */
-	public function test_cache_menu_adds_menu_key_to_arguments_menu_when_caching() {
-
-		$key_argument = 'menu_key';
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.key_argument' )
-			->andReturn( $key_argument );
-
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
-			->andReturn( true );
-
-		Monkey\Functions::expect( 'set_transient' );
-
-		$args = $this->args_mock();
-
-		( new Testee() )->cache_menu( null, $args );
-
-		$this->assertTrue( isset( $args->{$key_argument} ) );
-	}
-
-	/**
 	 * Tests if the menu (string) gets cached as expected in case the menu is to be cached.
 	 *
-	 * @since  1.1.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::cache_menu()
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -75,15 +25,15 @@ class MenuCacheTest extends TestCase {
 
 		$menu = 'Some markup, maybe.';
 
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
 			->andReturn( true );
 
 		$key = 'menu_key';
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.key' )
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_KEY )
 			->andReturn( $key );
 
 		$expiration = 123;
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.expiration' )
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_EXPIRATION )
 			->andReturn( $expiration );
 
 		Monkey\Functions::expect( 'set_transient' )
@@ -93,15 +43,61 @@ class MenuCacheTest extends TestCase {
 				$expiration,
 			] );
 
-		( new Testee() )->cache_menu( $menu, $this->args_mock() );
+		( new Testee() )->cache_menu( $menu, $this->mock_args() );
+	}
+
+	/**
+	 * Tests if the menu key gets added to the menu arguments in case the menu is to be cached.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
+	public function test_cache_menu_adds_menu_key_to_arguments_menu_when_caching() {
+
+		$key_argument = 'menu_key_argument';
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_KEY_ARGUMENT )
+			->andReturn( $key_argument );
+
+		$args = $this->mock_args();
+
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
+			->andReturn( true );
+
+		Monkey\Functions::expect( 'set_transient' );
+
+		$key = 'menu_key';
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_KEY )
+			->andReturn( $key );
+
+		( new Testee() )->cache_menu( null, $args );
+
+		$this->assertSame( $key, $args->{$key_argument} );
+	}
+
+	/**
+	 * Tests if the passed menu (string) gets returned as is in case the menu is to be cached.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function test_cache_menu_returns_unfiltered_menu_when_caching() {
+
+		$menu = 'Some markup, maybe.';
+
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
+			->andReturn( true );
+
+		Monkey\Functions::expect( 'set_transient' );
+
+		$this->assertSame( $menu, ( new Testee() )->cache_menu( $menu, $this->mock_args() ) );
 	}
 
 	/**
 	 * Tests if the passed menu (string) gets returned as is in case the menu is not to be cached.
 	 *
-	 * @since  1.0.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::cache_menu()
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -109,37 +105,47 @@ class MenuCacheTest extends TestCase {
 
 		$menu = 'Some markup, maybe.';
 
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
 			->andReturn( false );
 
-		$this->assertSame( $menu, ( new Testee() )->cache_menu( $menu, $this->args_mock() ) );
+		Monkey\Functions::expect( 'set_transient' )
+			->never();
+
+		$this->assertSame( $menu, ( new Testee() )->cache_menu( $menu, $this->mock_args() ) );
 	}
 
 	/**
-	 * Tests if the passed menu (string) gets returned as is in case the menu is not to be cached.
+	 * Tests if the cached menu (string) gets returned in case the menu is to be cached and was found.
 	 *
-	 * @since  1.0.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::get_menu()
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
-	public function test_get_menu_returns_unfiltered_menu_when_not_caching() {
+	public function test_get_menu_returns_cached_menu_when_caching_and_found() {
 
-		$menu = 'Some markup, maybe.';
+		$key_argument = 'menu_key_argument';
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_KEY_ARGUMENT )
+			->andReturn( $key_argument );
 
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
-			->andReturn( false );
+		$args = $this->mock_args( [
+			$key_argument => 'some_key_here',
+		] );
 
-		$this->assertSame( $menu, ( new Testee() )->get_menu( $menu, $this->args_mock() ) );
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
+			->andReturn( true );
+
+		$cached_menu = 'Some cached markup, definitely.';
+		Monkey\Functions::expect( 'get_transient' )
+			->with( $args->{$key_argument} )
+			->andReturn( $cached_menu );
+
+		$this->assertSame( $cached_menu, ( new Testee() )->get_menu( null, $args ) );
 	}
 
 	/**
 	 * Tests if the passed menu (string) gets returned as is in case the menu is to be cached but was not found.
 	 *
-	 * @since  1.0.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::get_menu()
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -147,54 +153,32 @@ class MenuCacheTest extends TestCase {
 
 		$menu = 'Some markup, maybe.';
 
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
 			->andReturn( true );
 
 		Monkey\Functions::expect( 'get_transient' )
 			->andReturn( false );
 
-		$this->assertSame( $menu, ( new Testee() )->get_menu( $menu, $this->args_mock() ) );
+		$this->assertSame( $menu, ( new Testee() )->get_menu( $menu, $this->mock_args() ) );
 	}
 
 	/**
-	 * Tests if the cached menu (string) gets returned in case the menu is to be cached and was found.
+	 * Tests if the passed menu (string) gets returned as is in case the menu is not to be cached.
 	 *
-	 * @since  1.0.0
-	 *
-	 * @covers \Inpsyde\MenuCache\MenuCache::get_menu()
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
-	public function test_get_menu_returns_cached_menu_when_caching_and_found() {
+	public function test_get_menu_returns_unfiltered_menu_when_not_caching() {
 
-		$key_argument = 'menu_key';
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.key_argument' )
-			->andReturn( $key_argument );
+		$menu = 'Some markup, maybe.';
 
-		Monkey\WP\Filters::expectApplied( 'inpsyde_menu_cache.should_cache_menu' )
-			->andReturn( true );
+		Monkey\WP\Filters::expectApplied( Testee::FILTER_SHOULD_CACHE_MENU )
+			->andReturn( false );
 
-		$cached_menu = 'Some cached markup, definitely.';
 		Monkey\Functions::expect( 'get_transient' )
-			->andReturn( $cached_menu );
+			->never();
 
-		$this->assertSame( $cached_menu, ( new Testee() )->get_menu( null, $this->args_mock( [
-			$key_argument => 'some_key_here',
-		] ) ) );
-	}
-
-	/**
-	 * Returns a menu args mock object.
-	 *
-	 * @param array $additional_args Optional. Additional arguments. Defaults to empty array.
-	 *
-	 * @return object Menu args mock object.
-	 */
-	private function args_mock( $additional_args = [] ) {
-
-		return (object) array_merge( [
-			'menu'           => '',
-			'theme_location' => '',
-		], $additional_args );
+		$this->assertSame( $menu, ( new Testee() )->get_menu( $menu, $this->mock_args() ) );
 	}
 }
