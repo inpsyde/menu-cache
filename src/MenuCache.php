@@ -82,6 +82,8 @@ class MenuCache {
 		if ( $this->should_cache_menu( $args ) && isset( $args->{$this->key_argument} ) ) {
 			$cached_menu = get_transient( $args->{$this->key_argument} );
 			if ( is_string( $cached_menu ) ) {
+				// We have found what we need, so we don't want any code to run after us (since any changes made here would be impossible to restore)
+				remove_all_filters( 'pre_wp_nav_menu' );
 				return $cached_menu;
 			}
 		}

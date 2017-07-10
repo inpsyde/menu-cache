@@ -36,7 +36,8 @@ function bootstrap() {
 
 	$cache = new MenuCache();
 
-	add_filter( 'pre_wp_nav_menu', [ $cache, 'get_menu' ], 10, 2 );
+	// Run as early as possible. All other code here would either be a conflicting cache plugin or a misplaced attempt to initialize a menu with no way to restore after we've run. ( switch_to_blog() on this hook would be fatal )
+	add_filter( 'pre_wp_nav_menu', [ $cache, 'get_menu' ], 0, 2 );
 
 	// Unfortunately, there is no appropriate action, so we have to (mis)use a filter here. Almost as late as possible.
 	add_filter( 'wp_nav_menu', [ $cache, 'cache_menu' ], PHP_INT_MAX - 1, 2 );
