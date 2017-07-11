@@ -36,7 +36,8 @@ function bootstrap() {
 
 	$cache = new MenuCache();
 
-	add_filter( 'pre_wp_nav_menu', [ $cache, 'get_menu' ], 10, 2 );
+	// Cache lookup should happen quite early as potential other code hooked here will somehow conflict with it anyway.
+	add_filter( 'pre_wp_nav_menu', [ $cache, 'get_menu' ], -1, 2 );
 
 	// Unfortunately, there is no appropriate action, so we have to (mis)use a filter here. Almost as late as possible.
 	add_filter( 'wp_nav_menu', [ $cache, 'cache_menu' ], PHP_INT_MAX - 1, 2 );
