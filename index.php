@@ -5,7 +5,7 @@
  * Description: Easily cache rendered menus using the Transients API.
  * Author:      Inpsyde GmbH, Thorsten Frommen, David Naber
  * Author URI:  https://inpsyde.com
- * Version:     1.2.0
+ * Version:     1.3.0
  * License:     MIT
  */
 
