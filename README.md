@@ -37,6 +37,9 @@ The menus to be cached, as well as the expiration, can be customized by using th
 Need to customize anything?
 Just use the provided filters.
 
+**Please note:** when you use the below class constants for the filters, make sure that the class is actually available.
+This can be as easy as _guarding_ your customization with `if ( class_exists( 'Inpsyde\MenuCache\MenuCache' ) )`.
+
 #### `Inpsyde\MenuCache\MenuCache::FILTER_EXPIRATION`
 
 The `Inpsyde\MenuCache\MenuCache::FILTER_EXPIRATION` filter allows you to define the expiration for all cached menus.
