@@ -1,17 +1,18 @@
 <?php # -*- coding: utf-8 -*-
+
 /**
  * Plugin Name: Inpsyde Menu Cache
  * Plugin URI:  https://github.com/inpsyde/menu-cache
  * Description: Easily cache rendered menus using the Transients API.
  * Author:      Inpsyde GmbH, Thorsten Frommen, David Naber
  * Author URI:  https://inpsyde.com
- * Version:     1.3.0
+ * Version:     1.4.0
  * License:     MIT
  */
 
 namespace Inpsyde\MenuCache;
 
-defined( 'ABSPATH' ) or die();
+defined( 'ABSPATH' ) || die();
 
 if ( is_admin() ) {
 	return;
@@ -31,7 +32,7 @@ function bootstrap() {
 		/**
 		 * Composer-generated autoload file.
 		 */
-		require_once __DIR__ . '/vendor/autoload.php';
+		include_once __DIR__ . '/vendor/autoload.php';
 	}
 
 	$cache = new MenuCache();

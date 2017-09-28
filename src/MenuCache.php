@@ -165,7 +165,7 @@ class MenuCache {
 		$key_argument = $this->key_argument;
 
 		if ( ! isset( $args->{$key_argument} ) || ! is_string( $args->{$key_argument} ) ) {
-			$key = 'cached_menu_' . md5( serialize( $args ) );
+			$key = 'cached_menu_' . md5( wp_json_encode( $args ) );
 
 			/**
 			 * Filters the key of a single menu.
