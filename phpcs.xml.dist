@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ruleset name="Menu Cache Coding Standard">
+
+	<description>Menu Cache coding standard.</description>
+
+	<file>./index.php</file>
+	<file>./src</file>
+
+	<arg value="sp"/>
+
+	<!-- Check for cross-version support for PHP. -->
+	<config name="testVersion" value="5.4-"/>
+	<rule ref="PHPCompatibility"/>
+
+	<rule ref="WordPress">
+
+		<!-- Exclude to not be forced to have something like "@var Container $container Container.". -->
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+
+		<!-- Exclude to be able to include an encoding cookie. -->
+		<exclude name="Squiz.Commenting.FileComment.WrongStyle"/>
+		<exclude name="Squiz.Commenting.InlineComment.WrongStyle"/>
+
+		<!-- Exclude to be able to adhere to PSR-4. -->
+		<exclude name="WordPress.Files.FileName"/>
+
+	</rule>
+
+</ruleset>
