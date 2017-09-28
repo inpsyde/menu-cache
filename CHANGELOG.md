@@ -8,6 +8,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 * ...
 
+## [1.4.0] - 2017-09-28
+
+### Added
+
+* Add PHP_CodeSniffer.
+
+### Changed
+
+* Adapt code to PHP_CodeSniffer rules.
+* Bootstrap the plugin earlier to prevent errors when referencing the constants of the not yet loaded (and loadable) class, see [#5](https://github.com/inpsyde/menu-cache/issues/5).
+
 ## [1.3.0] - 2017-07-11
 
 ### Changed
@@ -47,7 +58,8 @@ Initial release.
 
 ----
 
-[Unreleased]: https://github.com/inpsyde/menu-cache/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/inpsyde/menu-cache/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/inpsyde/menu-cache/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/inpsyde/menu-cache/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/inpsyde/menu-cache/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/inpsyde/menu-cache/compare/v1.0.0...v1.1.0
