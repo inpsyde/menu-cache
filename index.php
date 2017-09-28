@@ -44,4 +44,4 @@ function bootstrap() {
 	add_filter( 'wp_nav_menu', [ $cache, 'cache_menu' ], PHP_INT_MAX - 1, 2 );
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap', 0 );
