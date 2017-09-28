@@ -26,6 +26,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 		parent::setUp();
 		Monkey::setUpWP();
+
+		Monkey\Functions::when( 'wp_json_encode' )
+			->justReturn( '"some JSON string"' );
 	}
 
 	/**
