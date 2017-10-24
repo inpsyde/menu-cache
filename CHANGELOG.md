@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 * ...
 
+## [1.4.1] - 2017-10-24
+
+### Fixed
+
+* Make PHP_CodeSniffer and all related packages development-only dependencies, see [#6](https://github.com/inpsyde/menu-cache/issues/6).
+
 ## [1.4.0] - 2017-09-28
 
 ### Added
@@ -58,7 +64,8 @@ Initial release.
 
 ----
 
-[Unreleased]: https://github.com/inpsyde/menu-cache/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/inpsyde/menu-cache/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/inpsyde/menu-cache/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/inpsyde/menu-cache/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/inpsyde/menu-cache/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/inpsyde/menu-cache/compare/v1.1.0...v1.2.0
