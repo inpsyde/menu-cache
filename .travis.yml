@@ -1,6 +1,6 @@
-language: php
+dist: trusty
 
-sudo: false
+language: php
 
 cache:
   apt: true
