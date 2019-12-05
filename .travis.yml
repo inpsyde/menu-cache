@@ -31,4 +31,5 @@ install:
 
 script:
   - find src tests \( -name '*.php' \) -exec php -l {} \;
+  - if [[ $TRAVIS_PHP_VERSION == "7.3" ]]; then vendor/bin/phpcs; fi
   - vendor/bin/phpunit
