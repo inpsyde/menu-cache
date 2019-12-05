@@ -12,6 +12,9 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
   - nightly
 
 matrix:
@@ -20,7 +23,7 @@ matrix:
     - php: nightly
 
 before_install:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
   - composer self-update
 
 install:
