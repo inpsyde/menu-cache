@@ -10,7 +10,7 @@
 
 	<!-- Check for cross-version support for PHP. -->
 	<config name="testVersion" value="5.4-"/>
-	<rule ref="PHPCompatibility"/>
+	<rule ref="PHPCompatibilityWP"/>
 
 	<rule ref="WordPress">
 
@@ -24,6 +24,11 @@
 		<!-- Exclude to be able to adhere to PSR-4. -->
 		<exclude name="WordPress.Files.FileName"/>
 
+		<!-- Don't demand long arrays. -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
+
+	<!-- Enforce short arrays. -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
 </ruleset>
