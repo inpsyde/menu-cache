@@ -4,10 +4,10 @@
  * Plugin Name: Inpsyde Menu Cache
  * Plugin URI:  https://github.com/inpsyde/menu-cache
  * Description: Easily cache rendered menus using the Transients API.
- * Author:      Inpsyde GmbH, Thorsten Frommen, David Naber
+ * Author:      Inpsyde GmbH
  * Author URI:  https://inpsyde.com
- * Version:     1.4.1
- * License:     MIT
+ * Version:     1.4.2
+ * License:     GPLv2+
  */
 
 namespace Inpsyde\MenuCache;

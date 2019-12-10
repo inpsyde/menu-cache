@@ -146,6 +146,6 @@ add_filter( \Inpsyde\MenuCache\MenuCache::FILTER_THEME_LOCATIONS, function () {
 
 ## License
 
-Copyright (c) 2017 Inpsyde GmbH, Thorsten Frommen, David Naber
+Copyright (c) 2017 Inpsyde GmbH
 
-This code is licensed under the [MIT License](LICENSE).
+This code is licensed under the [GPLv2+ License](LICENSE).

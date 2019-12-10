@@ -28,4 +28,4 @@ Thanks for contributing&mdash;you rock!
 
 # License
 
-By contributing code, you grant its use under the [MIT License](../LICENSE).
+By contributing code, you grant its use under the [GPLv2+ License](../LICENSE).

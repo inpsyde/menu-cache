@@ -12,14 +12,14 @@
     "wp_nav_menu",
     "wp"
   ],
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "authors": [
     {
       "name": "Inpsyde GmbH",
       "email": "hello@inpsyde.com",
-      "homepage": "http://inpsyde.com",
+      "homepage": "https://inpsyde.com",
       "role": "Company"
     },
     {

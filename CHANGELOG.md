@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 * ...
 
+## [1.4.2] - 2019-12-10
+
+### Fixed
+
+* Update PHPCS related dependencies, probs @jrfnl.
+* Add more tests for different php versions, probs @jrfnl.
+* Switch to GPLv2+ as part of WordPress license model and our relation to the app.
+
 ## [1.4.1] - 2017-10-24
 
 ### Fixed
